@@ -16,14 +16,13 @@ func main() {
 }
 
 func gitRepositoryRoot() (string, error) {
-	var output bytes.Buffer
 	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
-	cmd.Stdout = &output
-	if err := cmd.Run(); err != nil {
+	output, err := cmd.Output()
+	if err != nil {
 		return "", err
 	}
 
-	return strings.TrimSpace(output.String()), nil
+	return strings.TrimSpace(string(output)), nil
 }
 
 func gitCollectFiles(command []string) ([]string, error) {
